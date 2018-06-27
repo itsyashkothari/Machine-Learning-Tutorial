@@ -1,6 +1,7 @@
 import numpy as np
 from numpy import loadtxt
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 '''
 %% Machine Learning Online Class - Exercise 1: Linear Regression
@@ -271,9 +272,41 @@ print()
 
 
 
-# ''' %% ============= Part 4: Visualizing J(theta_0, theta_1) ============= '''
-# print()
-# print()
-# print("Visualizing J(theta_0, theta_1) ...")
-#
-# ''' % Grid over which we will calculate J '''
+''' %% ============= Part 4: Visualizing J(theta_0, theta_1) ============= '''
+print()
+print()
+print("Visualizing J(theta_0, theta_1) ...")
+
+''' % Grid over which we will calculate J '''
+theta0_vals = np.linspace(-10, 10, num=100)
+theta1_vals = np.linspace(-1, 4, num=100)
+
+''' % initialize J_vals to a matrix of 0's '''
+# print(theta0_vals.size)    // 100
+J_vals = np.zeros((theta0_vals.size, theta1_vals.size))
+
+''' % Fill out J_vals '''
+for i in range(theta0_vals.size):
+    for j in range(theta1_vals.size):
+        t = np.array([theta0_vals[i], theta1_vals[j]])
+        J_vals[i][j] = computeCost(X, y, t);
+
+
+J_vals = J_vals.transpose()
+
+''' % Surface plot '''
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(theta0_vals, theta1_vals, J_vals)
+plt.xlabel("theta_0")
+plt.ylabel("theta_1")
+plt.show()
+
+''' % Contour plot '''
+''' % Plot J_vals as 15 contours spaced logarithmically between 0.01 and 100 '''
+plt.contour(theta0_vals, theta1_vals, J_vals, np.logspace(-2, 3, 20))
+plt.xlabel("theta_0")
+plt.ylabel("theta_1")
+plt.plot(theta[0], theta[1], marker='x', color="red")
+plt.show()
+print()
